@@ -1,4 +1,5 @@
 ﻿using FinancialCalc.BaseClasses;
+using FinancialCalc.Command;
 using FinancialCalc.Constants;
 using FinancialCalc.Helpers;
 using FinancialCalc.Objects;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using System.Windows.Input;
 
 namespace FinancialCalc
 {
@@ -20,6 +22,8 @@ namespace FinancialCalc
         {
             _jsonService = new JsonService();
             _constants = new ProjectConstants();
+
+            OnAddCommand = new DelegateCommand(OnAdd);
         }
 
         #region Properties
@@ -46,6 +50,21 @@ namespace FinancialCalc
                 products = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        #endregion
+
+        #region Events
+
+        public ICommand OnAddCommand { get; protected set; }
+
+        public ICommand OnModifyCommand { get; protected set; }
+
+        public ICommand OnDeleteCommand { get; protected set; }
+
+        private void OnAdd(object obj)
+        {
+
         }
 
         #endregion

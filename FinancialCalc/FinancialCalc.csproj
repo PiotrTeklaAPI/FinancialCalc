@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Interfaces\IJsonService.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Page Include="MainWindow.xaml">

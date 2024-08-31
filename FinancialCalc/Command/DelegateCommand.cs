@@ -14,7 +14,7 @@ namespace FinancialCalc.Command
             _canExecute = canExecute;
         }
 
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, System.EventArgs.Empty);
 
         public event EventHandler CanExecuteChanged;
 

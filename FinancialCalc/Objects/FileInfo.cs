@@ -16,12 +16,13 @@ namespace FinancialCalc.Objects
         }
 
         [JsonProperty]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         [JsonProperty]
-        public string Path { get; set; }
+        public string Path { get; private set; }
 
         [JsonProperty]
-        public DateTime LastModification { get; set; }
+        public DateTime LastModification { get; private set; }
+
     }
 }

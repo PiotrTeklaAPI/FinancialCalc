@@ -1,10 +1,11 @@
 ﻿using FinancialCalc.BaseClasses;
 using FinancialCalc.Enums;
 using Newtonsoft.Json;
+using System;
 
 namespace FinancialCalc.Objects
 {
-    public class Product
+    public class Product : ObjectToObserve, ICloneable
     {
         [JsonConstructor]
         public Product() { }
@@ -32,6 +33,28 @@ namespace FinancialCalc.Objects
             {
                 return CostNet * VatRateType.ToPercentage();
             }
+        }
+
+        public object Clone()
+        {
+            return new Product
+            {
+                Name = Name,
+                VatRateType = VatRateType,
+                CostNet = CostNet
+            };
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is Product product)
+            {
+                return Name.Equals(product.Name) &&
+                       CostNet == product.CostNet &&
+                       VatRateType == product.VatRateType;
+            }
+            
+            return false;
         }
     }
 }

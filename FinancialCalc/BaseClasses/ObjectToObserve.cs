@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace FinancialCalc.BaseClasses
 {
-    public abstract class ViewModel : INotifyPropertyChanged
+    public abstract class ObjectToObserve : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

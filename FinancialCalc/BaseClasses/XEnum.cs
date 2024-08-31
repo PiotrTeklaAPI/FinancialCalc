@@ -1,6 +1,9 @@
 ﻿using FinancialCalc.Attributes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Documents;
 
 namespace FinancialCalc.BaseClasses
 {
@@ -19,6 +22,60 @@ namespace FinancialCalc.BaseClasses
             }
 
             return value.GetAttribute<Percentage>()?.Value ?? 0.0;
+        }
+
+        public static string ToDescription(this Enum value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return value.GetAttribute<Description>().Value ?? string.Empty;
+        }
+
+        public static List<T> EnumToList<T>() where T : Enum
+        {
+            if(!typeof(T).IsEnum)
+            {
+                throw new ArgumentException("Given T value isn't enum.");
+            }
+
+            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
+        }
+
+        public static List<double> EnumPercentageToList<T>() where T : Enum
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new ArgumentException("Given T value isn't enum.");
+            }
+
+            var enums = EnumToList<T>();
+            return enums.Select(x => x.ToPercentage()).ToList();
+        }
+
+        public static List<string> EnumDescriptionToList<T>() where T : Enum
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new ArgumentException("Given T value isn't enum.");
+            }
+
+            var enums = EnumToList<T>();
+            return enums.Select(x => x.ToDescription()).ToList();
+        }
+
+        public static bool HasAttribute<T>(this Enum value) where T : Attribute
+        {
+            var fieldInfo = value.GetType().GetField(value.ToString());
+
+            if(fieldInfo.GetCustomAttribute(typeof(T), false) != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

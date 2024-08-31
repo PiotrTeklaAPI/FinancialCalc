@@ -26,6 +26,11 @@ namespace FinancialCalc.Helpers
             return fullPath;
         }
 
+        public string GetCurrentFileName()
+        {
+            return GetDateStamp().ToString();
+        }
+
         private string GetCurrentMonth()
         {
             return new DateTimeFormatInfo().GetMonthName(DateTime.Now.Month);

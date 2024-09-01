@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:FinancialCalc.Views"
         xmlns:viewmodels="clr-namespace:FinancialCalc.ViewModels"
         xmlns:converters="clr-namespace:FinancialCalc.Converters"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=viewmodels:ProductViewModel}"
         mc:Ignorable="d"
-        Title="ProductView"
+        Title="Add/Modify Product"
         MinHeight="150"
         MinWidth="300"
         SizeToContent="WidthAndHeight">
@@ -24,18 +25,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Margin="5 5 5 5">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Label
+        <Grid
+            Margin="5 5 5 5"
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label
             x:Name="NameLabel"
             Grid.Row="0"
             Content="Name"
@@ -43,7 +51,7 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="12"/>
-        <TextBox
+            <TextBox
             Grid.Row="0"
             Grid.Column="1"
             VerticalAlignment="Stretch"
@@ -53,7 +61,7 @@
             x:Name="NameText"
             Margin="3 3 3 3"
             Text="{Binding Product.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
-        <Label
+            <Label
             x:Name="VatRateLabel"
             Grid.Row="1"
             Content="Vat rate"
@@ -61,7 +69,7 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="12"/>
-        <ComboBox
+            <ComboBox
             x:Name="VatRateComboBox"
             Margin="3 3 3 3"
             Grid.Row="1"
@@ -71,15 +79,15 @@
             IsEditable="False"
             ItemsSource="{Binding VatRates, Mode=OneWay}"
             SelectedItem="{Binding Product.VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock HorizontalAlignment="Left"
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                Text="{Binding Converter={StaticResource EnumToDescription}}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Label
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label
             x:Name="CostNetLabel"
             Grid.Row="2"
             Content="Cost (Net)"
@@ -87,7 +95,7 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="12"/>
-        <TextBox
+            <TextBox
             Grid.Row="2"
             Grid.Column="1"
             VerticalAlignment="Stretch"
@@ -98,7 +106,7 @@
             x:Name="ConstNetText"
             Margin="3 3 3 3"
             Text="{Binding Product.CostNet, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
-        <Label
+            <Label
             x:Name="CostGrossLabel"
             Grid.Row="3"
             Content="Cost (Gross)"
@@ -106,7 +114,7 @@
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
             FontSize="12"/>
-        <TextBox
+            <TextBox
             Grid.Row="3"
             Grid.Column="1"
             VerticalAlignment="Stretch"
@@ -117,5 +125,42 @@
             Margin="3 3 3 3"
             IsEnabled="False"
             Text="{Binding Product.CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Grid
+            Margin="5 5 5 5"
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Width="50"
+                Height="25"
+                Margin="3"
+                Content="OK">
+                <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Click">
+                    <b:InvokeCommandAction Command="{Binding OnOkCommand}"/>
+                </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Button>
+            <Button
+                 Grid.Row="0"
+                 Grid.Column="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Width="50"
+                Height="25"
+                Margin="3"
+                Content="Cancel"/>
+        </Grid>
     </Grid>
+
 </Window>

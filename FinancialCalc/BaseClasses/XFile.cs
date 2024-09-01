@@ -41,7 +41,7 @@ namespace FinancialCalc.BaseClasses
 
             try
             {
-                using (FileStream fileStream = File.Open(filePath, FileMode.Truncate, FileAccess.ReadWrite))
+                using (FileStream fileStream = File.Open(filePath, FileMode.Append, FileAccess.Write))
                 {
                     using StreamWriter streamWriter = new StreamWriter(fileStream);
                     streamWriter.Write(data);

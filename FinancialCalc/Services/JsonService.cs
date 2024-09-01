@@ -7,14 +7,14 @@ namespace FinancialCalc.Services
 {
     public class JsonService : IJsonService
     {
-        public bool TryDeserializeObject<T>(string value, out List<T> deserializedObject) where T : class
+        public bool TryDeserializeObject<T>(string value, out T deserializedObject) where T : class
         {
             bool resut;
             deserializedObject = null;
 
             try
             {
-                deserializedObject = JsonConvert.DeserializeObject<List<T>>(value, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto});
+                deserializedObject = JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto});
                 resut = deserializedObject != null;
             }
             catch (Exception ex)

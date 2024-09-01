@@ -22,7 +22,7 @@ namespace FinancialCalc.Helpers
         {
             var desktopPath = GetDesktopPath();
             var dateStamp = GetDateStamp();
-            var fullPath = $"{desktopPath}{dateStamp}.{constants.JsonExtension}";
+            var fullPath = $"{desktopPath}\\{dateStamp}{constants.JsonExtension}";
             return fullPath;
         }
 

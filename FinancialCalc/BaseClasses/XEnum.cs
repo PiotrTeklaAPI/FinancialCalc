@@ -15,7 +15,7 @@ namespace FinancialCalc.BaseClasses
 
         public static double ToPercentage(this Enum value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return 0.0;
             }
@@ -25,7 +25,7 @@ namespace FinancialCalc.BaseClasses
 
         public static string ToDescription(this Enum value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return string.Empty;
             }

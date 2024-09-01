@@ -35,6 +35,7 @@ namespace FinancialCalc
             OnModifyCommand = new DelegateCommand(OnModify);
             OnDeleteCommand = new DelegateCommand(OnDelete);
             OnSaveCommand = new DelegateCommand(OnSave);
+            OnLoadCommand = new DelegateCommand(OnLoad);
 
             StatusBarMessage = EntryMessage;
             FileInformation = new FileInfo(pathHelper.GetCurrentFullFilePath(), pathHelper.GetCurrentFileName(), DateTime.Now);
@@ -92,6 +93,8 @@ namespace FinancialCalc
 
         public ICommand OnSaveCommand { get; protected set; }
 
+        public ICommand OnLoadCommand { get; protected set; }
+
         private void OnAdd(object obj)
         {
             ProductViewModel productViewModel = new ProductViewModel();
@@ -104,7 +107,7 @@ namespace FinancialCalc
         {
             var newProduct = e.Product;
 
-            if(Products.Any(x => x.Equals(newProduct)))
+            if (Products.Any(x => x.Equals(newProduct)))
             {
                 StatusBarMessage = "Cannot load new cost. It has been already added.";
                 return;
@@ -129,11 +132,23 @@ namespace FinancialCalc
 
         private void OnSave(object obj)
         {
-            if(SerializeToFile(FileInformation.Path) is false)
+            if (SerializeToFile(FileInformation.Path) is false)
             {
                 StatusBarMessage = "Failed to save file.";
                 return;
             }
+        }
+
+        private void OnLoad(object obj)
+        {
+            var productsFromFile = GetProducts();
+            Products.Clear();
+            foreach (var product in productsFromFile)
+            {
+                Products.Add(product);
+            }
+
+            NotifyPropertyChanged(nameof(Products));
         }
 
         #endregion
@@ -143,7 +158,13 @@ namespace FinancialCalc
         private List<Product> GetProducts()
         {
             var products = new List<Product>();
-            var filePath = PathHelper.GetDesktopPath();
+            var filePath = pathHelper.GetCurrentFullFilePath();
+
+            if(XFile.FileExists(filePath) is false)
+            {
+                StatusBarMessage = "File for current month doesn't exist yet.";
+                return products;
+            }
 
             if (XFile.ReadFile(filePath, out string data) is false)
             {
@@ -160,37 +181,24 @@ namespace FinancialCalc
 
         private bool SerializeToFile(string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
-            using (Utf8JsonWriter writer = new Utf8JsonWriter(fileStream, new JsonWriterOptions { Indented = true }))
+            //if (jsonService.TrySerializeObject(FileInformation, out string fineInfoData) is false)
+            //{
+            //    return false;
+            //}
+
+            //if (XFile.SaveToFile(fineInfoData, filePath) is false)
+            //{
+            //    return false;
+            //}
+
+            if (jsonService.TrySerializeObject(Products, out string productsData) is false)
             {
-                writer.WriteStartObject();
+                return false;
+            }
 
-                writer.WritePropertyName(nameof(FileInfo));
-                if(jsonService.TrySerializeObject(FileInformation, out string fineInfoData) is false)
-                {
-                    writer.WriteEndObject();
-                    return false;
-                }
-
-                if(XFile.SaveToFile(fineInfoData, filePath) is false)
-                {
-                    writer.WriteEndObject();
-                    return false;
-                }
-
-                if (jsonService.TrySerializeObject(Products, out string productsData) is false)
-                {
-                    writer.WriteEndObject();
-                    return false;
-                }
-
-                if (XFile.SaveToFile(productsData, filePath) is false)
-                {
-                    writer.WriteEndObject();
-                    return false;
-                }
-
-                writer.WriteEndObject();
+            if (XFile.SaveToFile(productsData, filePath) is false)
+            {
+                return false;
             }
 
             return true;

@@ -20,11 +20,15 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" VerticalAlignment="Center">
+        <Grid
+            Grid.Row="0"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -34,9 +38,9 @@
                 x:Name="AddButton"
                 Grid.Row="0"
                 Grid.Column="0"
-                Width="60"
-                Height="30"
-                Margin="10"
+                Width="50"
+                Height="25"
+                Margin="5"
                 Content="Add">
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="Click">
@@ -48,9 +52,9 @@
                 x:Name="ModifyButton"
                 Grid.Row="0"
                 Grid.Column="1"
-                Width="60"
-                Height="30"
-                Margin="10"
+                Width="50"
+                Height="25"
+                Margin="5"
                 Content="Modify">
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="Click">
@@ -62,9 +66,9 @@
                 x:Name="DeleteButton"
                 Grid.Row="0"
                 Grid.Column="2"
-                Width="60"
-                Height="30"
-                Margin="10"
+                Width="50"
+                Height="25"
+                Margin="5"
                 Content="Delete">
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="Click">
@@ -77,13 +81,27 @@
                 x:Name="SaveButton"
                 Grid.Row="0"
                 Grid.Column="3"
-                Width="60"
-                Height="30"
-                Margin="10"
+                Width="50"
+                Height="25"
+                Margin="5"
                 Content="Save">
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="Click">
                         <b:InvokeCommandAction Command="{Binding OnSaveCommand}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Button>
+            <Button
+                x:Name="LoadButton"
+                Grid.Row="0"
+                Grid.Column="4"
+                Width="50"
+                Height="25"
+                Margin="5"
+                Content="Load">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="Click">
+                        <b:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
             </Button>
@@ -102,52 +120,106 @@
             AutoGenerateColumns="False"
             VerticalScrollBarVisibility="Auto"
             MinHeight="250">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Product.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <StaticResource ResourceKey="TextBlockCenteredStyle"/>
+                    </DataGridTextColumn.ElementStyle>
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock
-                            Background="White"
-                            FontWeight="Bold"
-                            Foreground="Black"
-                            VerticalAlignment="Center"
-                            Text="Name"/>
+                            <StackPanel>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    Text="Name"/>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="[-]"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Product.VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <StaticResource ResourceKey="TextBlockCenteredStyle"/>
+                    </DataGridTextColumn.ElementStyle>
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock
-                            Background="White"
-                            FontWeight="Bold"
-                            Foreground="Black"
-                            VerticalAlignment="Center"
-                            Text="Vat Rate"/>
+                            <StackPanel>
+                                <TextBlock
+                                     Background="White"
+                                     FontWeight="Bold"
+                                     Foreground="Black"
+                                     VerticalAlignment="Center"
+                                     Text="Vat Rate"/>
+                                <TextBlock
+                                     Background="White"
+                                     FontWeight="Bold"
+                                     Foreground="Black"
+                                     VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                     Text="[%]"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Product.CostGross, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Binding="{Binding CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <StaticResource ResourceKey="TextBlockCenteredStyle"/>
+                    </DataGridTextColumn.ElementStyle>
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock
-                            Background="White"
-                            FontWeight="Bold"
-                            Foreground="Black"
-                            VerticalAlignment="Center"
-                            Text="Cost Gross"/>
+                            <StackPanel>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    Text="Cost (Gross)"/>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="[PLN]"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Product.CostGross, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Binding="{Binding CostNet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <StaticResource ResourceKey="TextBlockCenteredStyle"/>
+                    </DataGridTextColumn.ElementStyle>
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock
-                            Background="White"
-                            FontWeight="Bold"
-                            Foreground="Black"
-                            VerticalAlignment="Center"
-                            Text="Cost Net"/>
+                            <StackPanel>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    Text="Cost (Net)"/>
+                                <TextBlock
+                                    Background="White"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="[PLN]"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>

@@ -7,12 +7,11 @@ using FinancialCalc.Objects;
 using FinancialCalc.Services;
 using FinancialCalc.ViewModels;
 using FinancialCalc.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Windows.Input;
 using FileInfo = FinancialCalc.Objects.FileInfo;
 
@@ -141,13 +140,20 @@ namespace FinancialCalc
 
         private void OnLoad(object obj)
         {
-            var productsFromFile = GetProducts();
+            var filePath = pathHelper.GetCurrentFullFilePath();
+            if(DeserializeToObjects(filePath, out FileInfo fileInfo, out List<Product> products) is false)
+            {
+                return;
+            }
+
             Products.Clear();
-            foreach (var product in productsFromFile)
+            foreach (var product in products)
             {
                 Products.Add(product);
             }
+            FileInformation = fileInfo;
 
+            NotifyPropertyChanged(nameof(FileInformation));
             NotifyPropertyChanged(nameof(Products));
         }
 
@@ -181,23 +187,50 @@ namespace FinancialCalc
 
         private bool SerializeToFile(string filePath)
         {
-            //if (jsonService.TrySerializeObject(FileInformation, out string fineInfoData) is false)
-            //{
-            //    return false;
-            //}
+            var data = new
+            {
+                FileInfo = FileInformation,
+                Products
+            };
 
-            //if (XFile.SaveToFile(fineInfoData, filePath) is false)
-            //{
-            //    return false;
-            //}
+            var serializeData = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-            if (jsonService.TrySerializeObject(Products, out string productsData) is false)
+            if (XFile.SaveToFile(serializeData, filePath) is false)
             {
                 return false;
             }
 
-            if (XFile.SaveToFile(productsData, filePath) is false)
+            return true;
+        }
+
+        private bool DeserializeToObjects(string filePath, out FileInfo fileInfo, out List<Product> products)
+        {
+            fileInfo = new FileInfo();
+            products = new List<Product>();
+
+            if(string.IsNullOrEmpty(filePath))
+                return false;
+
+            if (XFile.ReadFile(filePath, out string serializedData) is false)
+                return false;
+
+            var data = JsonConvert.DeserializeObject<dynamic>(serializedData);
+
+            if(jsonService.TryDeserializeObject<FileInfo>(Convert.ToString(data.FileInfo), out fileInfo) is false)
             {
+                StatusBarMessage = "Failed to deserialize file info.";
+                return false;
+            }
+
+            if(jsonService.TryDeserializeObject<List<Product>>(Convert.ToString(data.Products), out products) is false)
+            {
+                StatusBarMessage = "Failed to deserialize products.";
+                return false;
+            }
+
+            if(products.Any() is false)
+            {
+                StatusBarMessage = "No products stored in the file.";
                 return false;
             }
 

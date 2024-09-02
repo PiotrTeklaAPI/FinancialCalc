@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinancialCalc"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:converters="clr-namespace:FinancialCalc.Converters"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Financial Calc 1.0"
@@ -14,6 +15,15 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <converters:EnumToDescriptionConverter x:Key="EnumToDescription"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -151,7 +161,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescription}}">
                     <DataGridTextColumn.ElementStyle>
                         <StaticResource ResourceKey="TextBlockCenteredStyle"/>
                     </DataGridTextColumn.ElementStyle>

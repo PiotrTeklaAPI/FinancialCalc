@@ -1,7 +1,6 @@
 ﻿using FinancialCalc.Interfaces;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace FinancialCalc.Services
 {

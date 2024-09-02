@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FinancialCalc.Interfaces
+﻿namespace FinancialCalc.Interfaces
 {
     public interface IJsonService
     {

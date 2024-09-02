@@ -11,7 +11,14 @@ namespace FinancialCalc.ViewModels
 {
     public class ProductViewModel : ViewModelBase
     {
+        #region Fields
+
         private readonly FileInfo fineInformation;
+
+        #endregion
+
+        #region Constructor
+
         public ProductViewModel(Product product, FileInfo fineInformation)
         {
             Product = product.Clone() as Product;
@@ -31,6 +38,8 @@ namespace FinancialCalc.ViewModels
             OnCancelCommand = new DelegateCommand(OnCancel);
             Product = new Product();
         }
+
+        #endregion
 
         #region Properties
 

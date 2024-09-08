@@ -9,9 +9,10 @@ namespace FinancialCalc.BaseClasses
             return File.Exists(path);
         }
 
-        public static bool SaveToFile(string data, string filePath)
+        public static bool SaveToFile(string data, string filePath, bool overwrite = false)
         {
-            if (FileExists(filePath))
+            bool fileExists = FileExists(filePath);
+            if (fileExists && overwrite is false)
             {
                 return UpdateFile(data, filePath);
             }
@@ -34,7 +35,7 @@ namespace FinancialCalc.BaseClasses
 
         public static bool UpdateFile(string data, string filePath)
         {
-            if(!FileExists(filePath))
+            if (!FileExists(filePath))
             {
                 return false;
             }
@@ -58,14 +59,14 @@ namespace FinancialCalc.BaseClasses
         public static bool ReadFile(string filePath, out string data)
         {
             data = null;
-            if(File.Exists(filePath) is false)
+            if (File.Exists(filePath) is false)
             {
                 return false;
             }
 
             try
             {
-                using(FileStream fileStream = File.OpenRead(filePath))
+                using (FileStream fileStream = File.OpenRead(filePath))
                 {
                     using StreamReader streamReader = new(fileStream);
                     data = streamReader.ReadToEnd();
@@ -77,5 +78,7 @@ namespace FinancialCalc.BaseClasses
                 return false;
             }
         }
+
+
     }
 }

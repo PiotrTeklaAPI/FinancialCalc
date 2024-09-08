@@ -4,12 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FinancialCalc.Views"
-             mc:Ignorable="d" 
+             xmlns:financialcalc="clr-namespace:FinancialCalc"
+             xmlns:converters="clr-namespace:FinancialCalc.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance financialcalc:MainWindowViewModel}"
              Height="Auto"
              Width="Auto">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <converters:EnumToDescriptionConverter x:Key="EnumToDescription"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DataGrid
             x:Name="DataGrid"

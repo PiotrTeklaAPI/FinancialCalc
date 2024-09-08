@@ -17,21 +17,53 @@ namespace FinancialCalc.Objects
             CostNet = costNet;
         }
 
-        [JsonProperty]
-        public VatRateType VatRateType { get; set; }
+        private VatRateType vatRateType;
 
         [JsonProperty]
-        public string Name { get; set; }
+        public VatRateType VatRateType
+        {
+            get => vatRateType;
+            set
+            {
+                vatRateType = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(CostGross));
+            }
+        }
+
+        private string name = string.Empty;
 
         [JsonProperty]
-        public double CostNet { get; set; }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private double costNet;
+
+        [JsonProperty]
+        public double CostNet
+        {
+            get => costNet;
+            set
+            {
+                costNet = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(CostGross));
+            }
+        }
 
         [JsonProperty]
         public double CostGross
         {
             get
             {
-                return CostNet * VatRateType.ToPercentage();
+                return CostNet * VatRateType.ToPercentage() + CostNet;
             }
         }
 

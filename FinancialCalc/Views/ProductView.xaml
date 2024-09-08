@@ -44,41 +44,41 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label
-            x:Name="NameLabel"
-            Grid.Row="0"
-            Content="Name"
-            Margin="3 3 3 3"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="12"/>
+                x:Name="NameLabel"
+                Grid.Row="0"
+                Content="Name"
+                Margin="3 3 3 3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="12"/>
             <TextBox
-            Grid.Row="0"
-            Grid.Column="1"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
-            VerticalContentAlignment="Center"
-            x:Name="NameText"
-            Margin="3 3 3 3"
-            Text="{Binding Product.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                x:Name="NameText"
+                Margin="3 3 3 3"
+                Text="{Binding Product.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
             <Label
-            x:Name="VatRateLabel"
-            Grid.Row="1"
-            Content="Vat rate"
-            Margin="3 3 3 3"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="12"/>
+                x:Name="VatRateLabel"
+                Grid.Row="1"
+                Content="Vat rate"
+                Margin="3 3 3 3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="12"/>
             <ComboBox
-            x:Name="VatRateComboBox"
-            Margin="3 3 3 3"
-            Grid.Row="1"
-            Grid.Column="1"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            IsEditable="False"
-            ItemsSource="{Binding VatRates, Mode=OneWay}"
-            SelectedItem="{Binding Product.VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                x:Name="VatRateComboBox"
+                Margin="3 3 3 3"
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                IsEditable="False"
+                ItemsSource="{Binding VatRates, Mode=OneWay}"
+                SelectedItem="{Binding Product.VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock HorizontalAlignment="Left"
@@ -88,43 +88,43 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <Label
-            x:Name="CostNetLabel"
-            Grid.Row="2"
-            Content="Cost (Net)"
-            Margin="3 3 3 3"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="12"/>
+                x:Name="CostNetLabel"
+                Grid.Row="2"
+                Content="Cost (Net)"
+                Margin="3 3 3 3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="12"/>
             <TextBox
-            Grid.Row="2"
-            Grid.Column="1"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
-            VerticalContentAlignment="Center"
-            Width="Auto"
-            x:Name="ConstNetText"
-            Margin="3 3 3 3"
-            Text="{Binding Product.CostNet, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                Grid.Row="2"
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                Width="Auto"
+                x:Name="ConstNetText"
+                Margin="3 3 3 3"
+                Text="{Binding Product.CostNet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label
-            x:Name="CostGrossLabel"
-            Grid.Row="3"
-            Content="Cost (Gross)"
-            Margin="3 3 3 3"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="12"/>
+                x:Name="CostGrossLabel"
+                Grid.Row="3"
+                Content="Cost (Gross)"
+                Margin="3 3 3 3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="12"/>
             <TextBox
-            Grid.Row="3"
-            Grid.Column="1"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left"
-            VerticalContentAlignment="Center"
-            x:Name="CostGrossText"
-            Margin="3 3 3 3"
-            IsEnabled="False"
-            Text="{Binding Product.CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                Grid.Row="3"
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                x:Name="CostGrossText"
+                Margin="3 3 3 3"
+                IsEnabled="False"
+                Text="{Binding Product.CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Grid
             Margin="5 5 5 5"
@@ -159,7 +159,8 @@
                 Width="50"
                 Height="25"
                 Margin="3"
-                Content="Cancel"/>
+                Content="Cancel"
+                Click="Button_Click"/>
         </Grid>
     </Grid>
 

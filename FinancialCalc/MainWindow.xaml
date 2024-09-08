@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:FinancialCalc"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:converters="clr-namespace:FinancialCalc.Converters"
+        xmlns:userControls="clr-namespace:FinancialCalc.UserControls"
+        xmlns:views="clr-namespace:FinancialCalc.Views"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Financial Calc 1.0"
@@ -27,98 +29,31 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid
+        <userControls:SettingsControl
             Grid.Row="0"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            HorizontalAlignment="Left">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="AddButton"
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="50"
-                Height="25"
-                Margin="5"
-                Content="Add">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Click">
-                        <b:InvokeCommandAction Command="{Binding OnAddCommand}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </Button>
-            <Button
-                x:Name="ModifyButton"
-                Grid.Row="0"
-                Grid.Column="1"
-                Width="50"
-                Height="25"
-                Margin="5"
-                Content="Modify">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Click">
-                        <b:InvokeCommandAction Command="{Binding OnModifyCommand}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </Button>
-            <Button
-                x:Name="DeleteButton"
-                Grid.Row="0"
-                Grid.Column="2"
-                Width="50"
-                Height="25"
-                Margin="5"
-                Content="Delete">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Click">
-                        <b:InvokeCommandAction Command="{Binding OnDeleteCommand}"
-                                               CommandParameter="{Binding SelectedProduct}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </Button>
-            <Button
-                x:Name="SaveButton"
-                Grid.Row="0"
-                Grid.Column="3"
-                Width="50"
-                Height="25"
-                Margin="5"
-                Content="Save">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Click">
-                        <b:InvokeCommandAction Command="{Binding OnSaveCommand}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </Button>
-            <Button
-                x:Name="LoadButton"
-                Grid.Row="0"
-                Grid.Column="4"
-                Width="50"
-                Height="25"
-                Margin="5"
-                Content="Load">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Click">
-                        <b:InvokeCommandAction Command="{Binding OnLoadCommand}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </Button>
-        </Grid>
-        <DataGrid
-            x:Name="DataGrid"
+            AddCommand="{Binding OnAddCommand}"
+            ModifyCommand="{Binding OnModifyCommand}"
+            DeleteCommand="{Binding OnDeleteCommand}"
+            SaveCommand="{Binding OnSaveCommand}"
+            LoadCommand="{Binding OnLoadCommand}"/>
+        <ComboBox
             Grid.Row="1"
+            ItemsSource="{Binding FileMonths, Mode=OneWay}"
+            SelectedItem="{Binding SelectedFileMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            />
+        <views:DataGridView
+            Grid.Row="2"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"/>
+        <!--<DataGrid
+            x:Name="DataGrid"
+            Grid.Row="2"
             Grid.Column="0"
             RowHeight="25"
             SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
@@ -234,8 +169,8 @@
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
             </DataGrid.Columns>
-        </DataGrid>
-        <StatusBar Grid.Row="2" Background="{StaticResource HeaderBackgroundBrush}">
+        </DataGrid>-->
+        <StatusBar Grid.Row="3" Background="{StaticResource HeaderBackgroundBrush}">
             <StatusBarItem FontSize="14">
                 <TextBlock Text="{Binding StatusBarMessage}"/>
             </StatusBarItem>

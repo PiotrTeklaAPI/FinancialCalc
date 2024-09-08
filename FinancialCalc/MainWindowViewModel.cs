@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using FileInfo = FinancialCalc.Objects.FileInfo;
@@ -38,6 +40,8 @@ namespace FinancialCalc
 
             StatusBarMessage = EntryMessage;
             FileInformation = new FileInfo(pathHelper.GetCurrentFullFilePath(), pathHelper.GetCurrentFileName(), DateTime.Now);
+            FileMonths = SetFileMonths();
+            SelectedFileMonth = FileMonths.FirstOrDefault();
         }
 
         #region Properties
@@ -56,7 +60,7 @@ namespace FinancialCalc
             }
         }
 
-        private ObservableCollection<Product> products = new ObservableCollection<Product>();
+        private ObservableCollection<Product> products = new();
 
         public ObservableCollection<Product> Products
         {
@@ -80,6 +84,19 @@ namespace FinancialCalc
             }
         }
 
+        public List<string> FileMonths { get; private set; }
+
+        private string selectedFileMonth = string.Empty;
+
+        public string SelectedFileMonth
+        {
+            get => selectedFileMonth;
+            set
+            {
+                selectedFileMonth = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region Events
@@ -97,35 +114,45 @@ namespace FinancialCalc
         private void OnAdd(object obj)
         {
             ProductViewModel productViewModel = new ProductViewModel();
-            productViewModel.AddRequested += ProductViewModel_AddRequested;
+            productViewModel.AddRequested += ProductViewModel_AddModifyRequested;
             ProductView productView = new ProductView(productViewModel);
             productView.Show();
         }
 
-        private void ProductViewModel_AddRequested(object sender, FinancialCalcEventArgs e)
+        private void ProductViewModel_AddModifyRequested(object sender, FinancialCalcEventArgs e)
         {
             var newProduct = e.Product;
 
-            if (Products.Any(x => x.Equals(newProduct)))
+            if (Products.FirstOrDefault(product => product.Name.Equals(newProduct.Name)) is { } editableProduct && editableProduct != null)
             {
-                StatusBarMessage = "Cannot load new cost. It has been already added.";
-                return;
+                editableProduct.CostNet = newProduct.CostNet;
+                editableProduct.VatRateType = newProduct.VatRateType;
             }
-
-            Products.Add(newProduct);
+            else
+            {
+                Products.Add(newProduct);
+            }
             NotifyPropertyChanged(nameof(Products));
         }
 
         private void OnModify(object obj)
         {
-
+            ProductViewModel productViewModel = new(SelectedProduct, FileInformation);
+            productViewModel.AddRequested += ProductViewModel_AddModifyRequested;
+            ProductView productView = new(productViewModel);
+            productView.Show();
         }
 
         private void OnDelete(object obj)
         {
-            if (!(obj is Product product))
+            if (Products.Remove(SelectedProduct))
             {
-                return;
+                StatusBarMessage = "Selected cost has been removed.";
+                NotifyPropertyChanged(nameof(Products));
+            }
+            else
+            {
+                StatusBarMessage = "Failed to remove selected cost.";
             }
         }
 
@@ -136,22 +163,17 @@ namespace FinancialCalc
                 StatusBarMessage = "Failed to save file.";
                 return;
             }
+
+            FileMonths = SetFileMonths();
         }
 
         private void OnLoad(object obj)
         {
             var filePath = pathHelper.GetCurrentFullFilePath();
-            if(DeserializeToObjects(filePath, out FileInfo fileInfo, out List<Product> products) is false)
+            if (TryLoadProductsAndFileInfo(filePath) is false)
             {
                 return;
             }
-
-            Products.Clear();
-            foreach (var product in products)
-            {
-                Products.Add(product);
-            }
-            FileInformation = fileInfo;
 
             NotifyPropertyChanged(nameof(FileInformation));
             NotifyPropertyChanged(nameof(Products));
@@ -161,28 +183,33 @@ namespace FinancialCalc
 
         #region Methods
 
-        private List<Product> GetProducts()
+        private bool TryLoadProductsAndFileInfo(string filePath)
         {
-            var products = new List<Product>();
-            var filePath = pathHelper.GetCurrentFullFilePath();
-
-            if(XFile.FileExists(filePath) is false)
+            if (XFile.FileExists(filePath) is false)
             {
-                StatusBarMessage = "File for current month doesn't exist yet.";
-                return products;
+                StatusBarMessage = "File for picked month doesn't exist.";
+                return false;
             }
 
             if (XFile.ReadFile(filePath, out string data) is false)
             {
-                return products;
+                StatusBarMessage = "Invalid file. Failed to read file.";
+                return false;
             }
 
-            if (jsonService.TryDeserializeObject(data, out products) is false)
+            if (DeserializeToObjects(filePath, out FileInfo fileInfo, out List<Product> products) is false)
             {
-                return products;
+                return false;
             }
 
-            return products;
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(product);
+            }
+            FileInformation = fileInfo;
+
+            return true;
         }
 
         private bool SerializeToFile(string filePath)
@@ -195,7 +222,7 @@ namespace FinancialCalc
 
             var serializeData = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-            if (XFile.SaveToFile(serializeData, filePath) is false)
+            if (XFile.SaveToFile(serializeData, filePath, true) is false)
             {
                 return false;
             }
@@ -208,7 +235,7 @@ namespace FinancialCalc
             fileInfo = new FileInfo();
             products = new List<Product>();
 
-            if(string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
                 return false;
 
             if (XFile.ReadFile(filePath, out string serializedData) is false)
@@ -216,19 +243,19 @@ namespace FinancialCalc
 
             var data = JsonConvert.DeserializeObject<dynamic>(serializedData);
 
-            if(jsonService.TryDeserializeObject<FileInfo>(Convert.ToString(data.FileInfo), out fileInfo) is false)
+            if (jsonService.TryDeserializeObject<FileInfo>(Convert.ToString(data.FileInfo), out fileInfo) is false)
             {
                 StatusBarMessage = "Failed to deserialize file info.";
                 return false;
             }
 
-            if(jsonService.TryDeserializeObject<List<Product>>(Convert.ToString(data.Products), out products) is false)
+            if (jsonService.TryDeserializeObject<List<Product>>(Convert.ToString(data.Products), out products) is false)
             {
                 StatusBarMessage = "Failed to deserialize products.";
                 return false;
             }
 
-            if(products.Any() is false)
+            if (products.Any() is false)
             {
                 StatusBarMessage = "No products stored in the file.";
                 return false;
@@ -237,6 +264,27 @@ namespace FinancialCalc
             return true;
         }
 
+        private List<string> GetFileNames(string path, string[] months)
+        {
+            var existingFileNames = new List<string>();
+
+            foreach (var month in months)
+            {
+                if (string.IsNullOrEmpty(month))
+                {
+                    continue;
+                }
+                var monthFilePaths = Directory.GetFiles(path, month + "*").ToList();
+                monthFilePaths.ForEach(monthFilePath => existingFileNames.Add(Path.GetFileName(monthFilePath)));
+            }
+
+            return existingFileNames;
+        }
+
+        private List<string> SetFileMonths()
+        {
+            return GetFileNames(PathHelper.GetDesktopPath(), new CultureInfo("en-US").DateTimeFormat.MonthNames);
+        }
         #endregion
     }
 }

@@ -27,7 +27,6 @@ namespace FinancialCalc.ViewModels
             SetValues();
 
             OnOkCommand = new DelegateCommand(OnOk);
-            OnCancelCommand = new DelegateCommand(OnCancel);
         }
 
         public ProductViewModel()
@@ -35,7 +34,6 @@ namespace FinancialCalc.ViewModels
             SetValues();
 
             OnOkCommand = new DelegateCommand(OnOk);
-            OnCancelCommand = new DelegateCommand(OnCancel);
             Product = new Product();
         }
 
@@ -65,8 +63,6 @@ namespace FinancialCalc.ViewModels
 
         public ICommand OnOkCommand { get; protected set; }
 
-        public ICommand OnCancelCommand { get; protected set; }
-
         #endregion
 
         #region Methods
@@ -79,11 +75,6 @@ namespace FinancialCalc.ViewModels
             };
 
             AddRequested?.Invoke(this, eventArgs);
-        }
-
-        private void OnCancel(object parameter)
-        {
-
         }
 
         private void SetValues()

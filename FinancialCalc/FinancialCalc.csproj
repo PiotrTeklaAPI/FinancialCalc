@@ -40,7 +40,7 @@
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.122\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -92,10 +92,12 @@
     </ApplicationDefinition>
     <Compile Include="Attributes\Description.cs" />
     <Compile Include="BaseClasses\ObjectToObserve.cs" />
+    <Compile Include="Command\AsyncCommand.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="EventArgs\FinancialCalcEventArgs.cs" />
     <Compile Include="Interfaces\IJsonService.cs" />
+    <Compile Include="Objects\FileData.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="UserControls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>

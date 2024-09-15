@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FileInfo = FinancialCalc.Objects.FileInfo;
 
@@ -36,7 +37,7 @@ namespace FinancialCalc
             OnModifyCommand = new DelegateCommand(OnModify);
             OnDeleteCommand = new DelegateCommand(OnDelete);
             OnSaveCommand = new DelegateCommand(OnSave);
-            OnLoadCommand = new DelegateCommand(OnLoad);
+            OnLoadCommand = new AsyncCommand(LoadProductsAndFileInfoAsync);
 
             StatusBarMessage = EntryMessage;
             FileInformation = new FileInfo(pathHelper.GetCurrentFullFilePath(), pathHelper.GetCurrentFileName(), DateTime.Now);
@@ -210,6 +211,52 @@ namespace FinancialCalc
             FileInformation = fileInfo;
 
             return true;
+        }
+
+        private async Task LoadProductsAndFileInfoAsync()
+        {
+            var filePath = pathHelper.GetCurrentFullFilePath();
+
+            if (XFile.FileExists(filePath) is false)
+            {
+                StatusBarMessage = "File for picked month doesn't exist.";
+                return;
+            }
+
+            try
+            {
+                using (var reader = new StreamReader(filePath))
+                {
+                    var serializedData = await reader.ReadToEndAsync();
+
+                    if (serializedData is null)
+                    {
+                        throw new Exception("Serialized data is null.");
+                    }
+
+                    if (jsonService.TryDeserializeObject(serializedData, out FileData fileData) is false)
+                    {
+                        throw new Exception("Failed to deserialize file info.");
+                    }
+
+                    if (fileData.Products.Any() is false)
+                    {
+                        throw new Exception("No products stored in the file.");
+                    }
+
+                    Products.Clear();
+                    foreach (var product in fileData.Products)
+                    {
+                        Products.Add(product);
+                    }
+
+                    FileInformation = fileData.FileInfo;
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusBarMessage = ex.Message;
+            }
         }
 
         private bool SerializeToFile(string filePath)

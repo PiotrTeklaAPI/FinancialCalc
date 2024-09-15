@@ -29,6 +29,7 @@
             RowHeight="25"
             SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
             ItemsSource="{Binding Products}"
+            IsReadOnly="True"
             VerticalAlignment="Stretch"
             CanUserAddRows="False"
             SelectionMode="Single"

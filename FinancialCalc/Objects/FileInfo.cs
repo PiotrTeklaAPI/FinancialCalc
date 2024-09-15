@@ -19,7 +19,7 @@ namespace FinancialCalc.Objects
         public string Name { get; private set; }
 
         [JsonProperty]
-        public string Path { get; private set; }
+        public string Path { get; set; }
 
         [JsonProperty]
         public DateTime LastModification { get; private set; }

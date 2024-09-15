@@ -29,7 +29,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -41,14 +40,10 @@
             ModifyCommand="{Binding OnModifyCommand}"
             DeleteCommand="{Binding OnDeleteCommand}"
             SaveCommand="{Binding OnSaveCommand}"
-            LoadCommand="{Binding OnLoadCommand}"/>
-        <ComboBox
-            Grid.Row="1"
-            ItemsSource="{Binding FileMonths, Mode=OneWay}"
-            SelectedItem="{Binding SelectedFileMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            />
+            LoadCommand="{Binding OnLoadCommand}"
+            OpenClicked="SettingsControl_OpenClicked"/>
         <views:DataGridView
-            Grid.Row="2"
+            Grid.Row="1"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Stretch"/>
         <StatusBar Grid.Row="3" Background="{StaticResource HeaderBackgroundBrush}">

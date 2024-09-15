@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -13,6 +15,10 @@ namespace FinancialCalc.UserControls
         {
             InitializeComponent();
         }
+
+        [Category("Buttons")]
+        [Description("Raised when Open button is clicked")]
+        public event EventHandler OpenClicked;
 
         #region Properties
 
@@ -62,5 +68,10 @@ namespace FinancialCalc.UserControls
         }
 
         #endregion
+
+        public void open_Click(object sender, RoutedEventArgs e)
+        {
+            this.OpenClicked?.Invoke(this, e);
+        }
     }
 }

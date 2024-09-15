@@ -215,7 +215,7 @@ namespace FinancialCalc
 
         private async Task LoadProductsAndFileInfoAsync()
         {
-            var filePath = pathHelper.GetCurrentFullFilePath();
+            var filePath = FileInformation.Path;
 
             if (XFile.FileExists(filePath) is false)
             {

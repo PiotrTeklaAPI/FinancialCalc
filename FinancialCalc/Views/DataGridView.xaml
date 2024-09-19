@@ -16,6 +16,7 @@
                 <ResourceDictionary>
                     <converters:EnumToDescriptionConverter x:Key="EnumToDescription"/>
                 </ResourceDictionary>
+                <ResourceDictionary Source="/Resources/CustomDataGridStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -27,6 +28,7 @@
             x:Name="DataGrid"
             Grid.Row="0"
             RowHeight="25"
+            Style="{StaticResource CustomDataGridStyle}"
             SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
             ItemsSource="{Binding Products}"
             IsReadOnly="True"
@@ -52,13 +54,11 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock
-                                Background="White"
                                 FontWeight="Bold"
                                 Foreground="Black"
                                 VerticalAlignment="Center"
                                 Text="Name"/>
                                 <TextBlock
-                                Background="White"
                                 FontWeight="Bold"
                                 Foreground="Black"
                                 VerticalAlignment="Center"

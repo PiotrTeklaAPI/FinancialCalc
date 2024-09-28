@@ -87,6 +87,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Wpf.Ui, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPF-UI.3.0.5\lib\net472\Wpf.Ui.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -97,6 +100,7 @@
     <Compile Include="BaseClasses\ObjectToObserve.cs" />
     <Compile Include="Command\AsyncCommand.cs" />
     <Compile Include="Command\DelegateCommand.cs" />
+    <Compile Include="Converters\DateTimeToShortStringConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="EventArgs\FinancialCalcEventArgs.cs" />
     <Compile Include="Interfaces\IJsonService.cs" />

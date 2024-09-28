@@ -12,8 +12,9 @@
         mc:Ignorable="d"
         Title="Financial Calc 1.0"
         Height="Auto"
-        Width="Auto"
-        MaxWidth="500">
+        Width="400"
+        MinHeight="300"
+        MinWidth="400">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>

@@ -7,6 +7,7 @@
         xmlns:viewmodels="clr-namespace:FinancialCalc.ViewModels"
         xmlns:converters="clr-namespace:FinancialCalc.Converters"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         d:DataContext="{d:DesignInstance Type=viewmodels:ProductViewModel}"
         mc:Ignorable="d"
         Title="Add/Modify Product"
@@ -34,6 +35,7 @@
             Margin="5 5 5 5"
             Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -125,6 +127,23 @@
                 Margin="3 3 3 3"
                 IsEnabled="False"
                 Text="{Binding Product.CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label
+                x:Name="DateLabel"
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Date"
+                Margin="3 3 3 3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="12"/>
+            <DatePicker
+                Grid.Column="1"
+                Grid.Row="4"
+                x:Name="datePicker"
+                Margin="3 3 3 3"
+                DisplayDate="{x:Static sys:DateTime.Now}"
+                SelectedDateFormat="Short"
+                SelectedDate="{Binding Product.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Grid
             Margin="5 5 5 5"

@@ -12,6 +12,10 @@ namespace FinancialCalc.Views
         {
             InitializeComponent();
             DataContext = viewModel;
+            if(datePicker.SelectedDate is null)
+            {
+                datePicker.SelectedDate = System.DateTime.Now;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -15,6 +15,7 @@ namespace FinancialCalc.Objects
             Name = name;
             VatRateType = rateType;
             CostNet = costNet;
+            Date = DateTime.Now;
         }
 
         private VatRateType vatRateType;
@@ -67,13 +68,27 @@ namespace FinancialCalc.Objects
             }
         }
 
+        private DateTime? date;
+
+        [JsonProperty]
+        public DateTime? Date
+        {
+            get => date;
+            set
+            {
+                date = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public object Clone()
         {
             return new Product
             {
                 Name = Name,
                 VatRateType = VatRateType,
-                CostNet = CostNet
+                CostNet = CostNet,
+                Date = Date
             };
         }
 

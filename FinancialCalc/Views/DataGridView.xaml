@@ -15,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <converters:EnumToDescriptionConverter x:Key="EnumToDescription"/>
+                    <converters:DateTimeToShortStringConverter x:Key="DateTimeToString"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -40,7 +41,10 @@
             VerticalScrollBarVisibility="Auto"
             MinHeight="250">
             <DataGrid.Columns>
-                <DataGridTextColumn HeaderStyle="{StaticResource CustomDataHeader}" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource DataGridElementStyle}"
+                    HeaderStyle="{StaticResource CustomDataHeader}"
+                    Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -59,7 +63,9 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescription}}">
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource DataGridElementStyle}"
+                    Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescription}}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -78,7 +84,9 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource DataGridElementStyle}"
+                    Binding="{Binding CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -97,7 +105,9 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CostNet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource DataGridElementStyle}"
+                    Binding="{Binding CostNet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -112,6 +122,27 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Text="[PLN]"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    ElementStyle="{StaticResource DataGridElementStyle}"
+                    Binding="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToString}}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    Text="Date"/>
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="[-]"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>

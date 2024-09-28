@@ -13,19 +13,18 @@ namespace FinancialCalc.ViewModels
     {
         #region Fields
 
-        private readonly FileInfo fineInformation;
+        private readonly FileInfo fileInformation;
 
         #endregion
 
         #region Constructor
 
-        public ProductViewModel(Product product, FileInfo fineInformation)
+        public ProductViewModel(Product product, FileInfo fileInformation)
         {
             Product = product.Clone() as Product;
-            this.fineInformation = fineInformation;
+            this.fileInformation = fileInformation;
 
             SetValues();
-
             OnOkCommand = new DelegateCommand(OnOk);
         }
 

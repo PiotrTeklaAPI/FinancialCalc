@@ -128,6 +128,7 @@ namespace FinancialCalc
             {
                 editableProduct.CostNet = newProduct.CostNet;
                 editableProduct.VatRateType = newProduct.VatRateType;
+                editableProduct.Date = newProduct.Date;
             }
             else
             {

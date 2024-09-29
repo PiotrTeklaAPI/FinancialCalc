@@ -39,7 +39,8 @@
             CanUserSortColumns="True"
             AutoGenerateColumns="False"
             VerticalScrollBarVisibility="Auto"
-            MinHeight="250">
+            MinHeight="250"
+            MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn
                     ElementStyle="{StaticResource DataGridElementStyle}"

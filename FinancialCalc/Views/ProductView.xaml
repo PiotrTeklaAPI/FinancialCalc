@@ -178,8 +178,15 @@
                 Width="50"
                 Height="25"
                 Margin="3"
-                Content="Cancel"
-                Click="Button_Click"/>
+                Content="Cancel">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="Click">
+                        <b:InvokeCommandAction
+                            Command="{Binding OnCloseCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </Button>
         </Grid>
     </Grid>
 

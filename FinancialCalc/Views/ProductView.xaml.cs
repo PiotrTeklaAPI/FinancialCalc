@@ -1,4 +1,5 @@
 ﻿using FinancialCalc.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 
 namespace FinancialCalc.Views
@@ -18,9 +19,13 @@ namespace FinancialCalc.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
-            this.Close();
+            if (DataContext is ProductViewModel vm)
+            {
+                vm.OnXButtonCommand.Execute(null);
+            }
+            base.OnClosing(e);
         }
     }
 }

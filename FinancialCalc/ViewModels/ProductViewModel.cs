@@ -3,6 +3,7 @@ using FinancialCalc.Command;
 using FinancialCalc.Enums;
 using FinancialCalc.EventArgs;
 using FinancialCalc.Objects;
+using FinancialCalc.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -26,10 +27,12 @@ namespace FinancialCalc.ViewModels
 
             SetValues();
             OnOkCommand = new DelegateCommand(OnOk);
+            OnCloseCommand = new DelegateCommand(OnClose);
+            OnXButtonCommand = new DelegateCommand(OnXButton);
         }
 
         public ProductViewModel()
-        {        
+        {
             SetValues();
 
             OnOkCommand = new DelegateCommand(OnOk);
@@ -60,7 +63,15 @@ namespace FinancialCalc.ViewModels
 
         public event EventHandler<FinancialCalcEventArgs> AddRequested;
 
+        public event EventHandler<FinancialCalcEventArgs> XButtonClicked;
+
+        public event EventHandler<FinancialCalcEventArgs> CloseRequested;
+
         public ICommand OnOkCommand { get; protected set; }
+
+        public ICommand OnCloseCommand { get; protected set; }
+
+        public ICommand OnXButtonCommand { get; protected set; }
 
         #endregion
 
@@ -74,6 +85,22 @@ namespace FinancialCalc.ViewModels
             };
 
             AddRequested?.Invoke(this, eventArgs);
+        }
+
+        private void OnClose(object obj)
+        {
+            if (obj is ProductView view)
+            {
+                var eventArgs = new FinancialCalcEventArgs();
+                CloseRequested?.Invoke(this, eventArgs);
+                view.Close();
+            }
+        }
+
+        private void OnXButton(object obj)
+        {
+            var eventArgs = new FinancialCalcEventArgs();
+            XButtonClicked?.Invoke(this, eventArgs);
         }
 
         private void SetValues()

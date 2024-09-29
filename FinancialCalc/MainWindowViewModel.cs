@@ -25,6 +25,7 @@ namespace FinancialCalc
         private readonly JsonService jsonService;
         private readonly ProjectConstants constants;
         private readonly PathHelper pathHelper;
+        private ProductViewModel productViewModel;
         private const string EntryMessage = "Financial Calc";
 
         public MainWindowViewModel()
@@ -37,6 +38,7 @@ namespace FinancialCalc
             OnModifyCommand = new DelegateCommand(OnModify);
             OnDeleteCommand = new DelegateCommand(OnDelete);
             OnSaveCommand = new DelegateCommand(OnSave);
+            OnDoubleClickCommand = new DelegateCommand(OnDoubleMouseClicked);
             OnLoadCommand = new AsyncCommand(LoadProductsAndFileInfoAsync);
 
             StatusBarMessage = EntryMessage;
@@ -98,6 +100,18 @@ namespace FinancialCalc
                 NotifyPropertyChanged();
             }
         }
+
+        private bool isModifyWindowOpen = false;
+        public bool IsModifyWindowOpen
+        {
+            get => isModifyWindowOpen;
+            set
+            {
+                isModifyWindowOpen = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Events
@@ -111,6 +125,8 @@ namespace FinancialCalc
         public ICommand OnSaveCommand { get; protected set; }
 
         public ICommand OnLoadCommand { get; protected set; }
+
+        public ICommand OnDoubleClickCommand { get; protected set; }
 
         private void OnAdd(object obj)
         {
@@ -139,10 +155,21 @@ namespace FinancialCalc
 
         private void OnModify(object obj)
         {
-            ProductViewModel productViewModel = new(SelectedProduct, FileInformation);
-            productViewModel.AddRequested += ProductViewModel_AddModifyRequested;
-            ProductView productView = new(productViewModel);
-            productView.Show();
+            if (IsModifyWindowOpen)
+            {
+                UpdateProductViewModel(selectedProduct);
+            }
+            else
+            {
+                productViewModel = new(SelectedProduct, FileInformation);
+                productViewModel.AddRequested += ProductViewModel_AddModifyRequested;
+                productViewModel.CloseRequested += OnCloseModifyViewModel;
+                productViewModel.XButtonClicked += OnCloseModifyViewModel;
+                ProductView productView = new(productViewModel);
+                productView.Show();
+
+                IsModifyWindowOpen = true;
+            }
         }
 
         private void OnDelete(object obj)
@@ -166,19 +193,35 @@ namespace FinancialCalc
                 return;
             }
 
+            StatusBarMessage = "File saved.";
+
             FileMonths = SetFileMonths();
         }
 
-        private void OnLoad(object obj)
+        private void OnDoubleMouseClicked(object obj)
         {
-            var filePath = pathHelper.GetCurrentFullFilePath();
-            if (TryLoadProductsAndFileInfo(filePath) is false)
+            if (obj is Product selectedProduct)
             {
-                return;
+                if (IsModifyWindowOpen)
+                {
+                    UpdateProductViewModel(selectedProduct);
+                }
+                else
+                {
+                    productViewModel = new(selectedProduct, FileInformation);
+                    productViewModel.AddRequested += ProductViewModel_AddModifyRequested;
+                    productViewModel.CloseRequested += OnCloseModifyViewModel;
+                    productViewModel.XButtonClicked += OnCloseModifyViewModel;
+                    ProductView productView = new(productViewModel);
+                    productView.Show();
+                    IsModifyWindowOpen = true;
+                }
             }
+        }
 
-            NotifyPropertyChanged(nameof(FileInformation));
-            NotifyPropertyChanged(nameof(Products));
+        private void OnCloseModifyViewModel(object obj, FinancialCalcEventArgs e)
+        {
+            IsModifyWindowOpen = false;
         }
 
         #endregion
@@ -333,6 +376,13 @@ namespace FinancialCalc
         {
             return GetFileNames(PathHelper.GetDesktopPath(), new CultureInfo("en-US").DateTimeFormat.MonthNames);
         }
+
+        private void UpdateProductViewModel(Product product)
+        {
+            var currentSelectedProduct = product.Clone() as Product;
+            productViewModel.Product = product;
+        }
+
         #endregion
     }
 }

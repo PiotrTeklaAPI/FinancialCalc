@@ -30,6 +30,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -43,8 +44,21 @@
             SaveCommand="{Binding OnSaveCommand}"
             LoadCommand="{Binding OnLoadCommand}"
             OpenClicked="SettingsControl_OpenClicked"/>
+        <ComboBox
+                Grid.Row="1"
+                x:Name="FileNamesComboBox"
+                ItemsSource="{Binding FileNames}"
+                SelectedItem="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <views:DataGridView
-            Grid.Row="1"
+            Grid.Row="2"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Stretch"/>
         <StatusBar Grid.Row="3"

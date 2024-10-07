@@ -49,6 +49,15 @@ namespace FinancialCalc.UserControls
             set { SetValue(ModifyCommandProperty, value); }
         }
 
+        public static readonly DependencyProperty ModifyCommandParameterProperty = DependencyProperty.Register(
+        "ModifyCommandParameter", typeof(object), typeof(SettingsControl), new PropertyMetadata());
+
+        public object ModifyCommandParameter
+        {
+            get { return GetValue(ModifyCommandParameterProperty); }
+            set { SetValue(ModifyCommandParameterProperty, value); }
+        }
+
         public static readonly DependencyProperty SaveCommandProperty = DependencyProperty.Register(
         "SaveCommand", typeof(ICommand), typeof(SettingsControl), new PropertyMetadata());
 

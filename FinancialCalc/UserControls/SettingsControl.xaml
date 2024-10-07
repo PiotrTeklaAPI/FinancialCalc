@@ -38,7 +38,8 @@
             Height="25"
             Margin="5"
             Content="Modify"
-            Command="{Binding ModifyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            Command="{Binding ModifyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            CommandParameter="">
         </Button>
         <Button
             x:Name="DeleteButton"

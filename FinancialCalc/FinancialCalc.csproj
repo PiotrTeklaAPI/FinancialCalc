@@ -105,6 +105,7 @@
     <Compile Include="EventArgs\FinancialCalcEventArgs.cs" />
     <Compile Include="Interfaces\IJsonService.cs" />
     <Compile Include="Objects\FileData.cs" />
+    <Compile Include="Services\FileWatcherService.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="UserControls\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>

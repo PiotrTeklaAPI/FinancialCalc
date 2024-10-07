@@ -8,19 +8,20 @@ namespace FinancialCalc.Helpers
     public class PathHelper
     {
         private readonly ProjectConstants constants;
+        private const string DataFolder = "\\FinancialCalcData";
 
         public PathHelper(ProjectConstants constants)
         {
             this.constants = constants;
         }
-        public static string GetDesktopPath()
+        public string GetDataFolderPath()
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            return Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + DataFolder;
         }
 
         public string GetCurrentFullFilePath()
         {
-            var desktopPath = GetDesktopPath();
+            var desktopPath = GetDataFolderPath();
             var dateStamp = GetDateStamp();
             var fullPath = $"{desktopPath}\\{dateStamp}{constants.JsonExtension}";
             return fullPath;
@@ -48,5 +49,9 @@ namespace FinancialCalc.Helpers
             return DateTime.Now.Year;
         }
 
+        public string GetFilePath(string fileName)
+        {
+            return $"{GetDataFolderPath()}\\{fileName}";
+        }
     }
 }

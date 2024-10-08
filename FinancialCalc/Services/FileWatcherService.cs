@@ -15,6 +15,7 @@ namespace FinancialCalc.Services
             {
                 Path = path,
                 Filter = filter,
+                InternalBufferSize = 32768,
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite
             };
 

@@ -34,6 +34,7 @@
             ItemsSource="{Binding Products}"
             IsReadOnly="True"
             VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
             CanUserAddRows="False"
             SelectionMode="Single"
             CanUserSortColumns="True"
@@ -48,19 +49,12 @@
                     Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                FontWeight="Bold"
-                                Foreground="Black"
-                                VerticalAlignment="Center"
-                                Text="Name"/>
-                                <TextBlock
+                            <TextBlock
                                 FontWeight="Bold"
                                 Foreground="Black"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                Text="[-]"/>
-                            </StackPanel>
+                                TextAlignment="Center"> Name <LineBreak/> [-]</TextBlock>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
@@ -69,19 +63,12 @@
                     Binding="{Binding VatRateType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescription}}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Foreground="Black"
-                                    VerticalAlignment="Center"
-                                    Text="Vat Rate"/>
-                                <TextBlock
+                            <TextBlock
                                     FontWeight="Bold"
                                     Foreground="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Text="[%]"/>
-                            </StackPanel>
+                                    TextAlignment="Center">Vat Rate <LineBreak/> [%]</TextBlock>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
@@ -90,19 +77,12 @@
                     Binding="{Binding CostGross, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Foreground="Black"
-                                    VerticalAlignment="Center"
-                                    Text="Cost (Gross)"/>
-                                <TextBlock
+                            <TextBlock
                                     FontWeight="Bold"
                                     Foreground="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Text="[PLN]"/>
-                            </StackPanel>
+                                    TextAlignment="Center">Cost (Gross) <LineBreak/> [PLN]</TextBlock>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
@@ -111,19 +91,12 @@
                     Binding="{Binding CostNet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                FontWeight="Bold"
-                                Foreground="Black"
-                                VerticalAlignment="Center"
-                                Text="Cost (Net)"/>
-                                <TextBlock
+                            <TextBlock
                                 FontWeight="Bold"
                                 Foreground="Black"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                Text="[PLN]"/>
-                            </StackPanel>
+                                TextAlignment="Center">Cost (Net) <LineBreak/> [PLN]</TextBlock>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
@@ -132,19 +105,12 @@
                     Binding="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateTimeToString}}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                    FontWeight="Bold"
-                                    Foreground="Black"
-                                    VerticalAlignment="Center"
-                                    Text="Date"/>
-                                <TextBlock
+                            <TextBlock
                                     FontWeight="Bold"
                                     Foreground="Black"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Text="[-]"/>
-                            </StackPanel>
+                                    TextAlignment="Center">Date <LineBreak/> [-]</TextBlock>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>

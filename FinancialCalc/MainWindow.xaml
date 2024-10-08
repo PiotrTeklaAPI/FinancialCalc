@@ -14,7 +14,9 @@
         Height="Auto"
         Width="400"
         MinHeight="300"
-        MinWidth="400">
+        MinWidth="400"
+        WindowStyle="None"
+        AllowsTransparency="True">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -27,15 +29,46 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid
+            Height="20"
+            Background="{StaticResource HeaderBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border
+                Grid.Column="0"
+                Background="Transparent"
+                Width="Auto"
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <TextBlock
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="Financial Calc 1.0"/>
+            </Border>
+            <Button
+                Grid.Column="1"
+                Content="Options"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Stretch"
+                Click="OptionsButton_Click"/>
+        </Grid>
         <userControls:SettingsControl
-            Grid.Row="0"
+            Grid.Row="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             AddCommand="{Binding OnAddCommand}"
@@ -45,7 +78,7 @@
             LoadCommand="{Binding OnLoadCommand}"
             OpenClicked="SettingsControl_OpenClicked"/>
         <ComboBox
-                Grid.Row="1"
+                Grid.Row="2"
                 x:Name="FileNamesComboBox"
                 ItemsSource="{Binding FileNames}"
                 SelectedItem="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -58,10 +91,10 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <views:DataGridView
-            Grid.Row="2"
+            Grid.Row="3"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Stretch"/>
-        <StatusBar Grid.Row="3"
+        <StatusBar Grid.Row="4"
                    Background="{StaticResource HeaderBackgroundBrush}">
             <StatusBarItem FontSize="14">
                 <TextBlock Text="{Binding StatusBarMessage}"/>

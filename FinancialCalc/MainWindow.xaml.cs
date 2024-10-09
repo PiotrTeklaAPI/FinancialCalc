@@ -47,5 +47,15 @@ namespace FinancialCalc
         {
             this.DragMove();
         }
+
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Minimalize(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
 }

@@ -41,10 +41,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid
-            Height="20"
+            Height="24"
             Background="{StaticResource HeaderBackgroundBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Border
@@ -53,19 +55,43 @@
                 Width="Auto"
                 MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <TextBlock
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
-                        FontWeight="Bold"
-                        Foreground="Black"
-                        Text="Financial Calc 1.0"/>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Margin="10 0 0 0"
+                    Text="Financial Calc 1.0"/>
             </Border>
             <Button
                 Grid.Column="1"
-                Content="Options"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
                 HorizontalContentAlignment="Stretch"
-                Click="OptionsButton_Click"/>
+                BorderThickness="0"
+                Background="Transparent"
+                Click="OptionsButton_Click">
+                <Image Source="Images/Options.png"/>
+            </Button>
+            <Button
+                 Grid.Column="2"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Right"
+                 HorizontalContentAlignment="Stretch"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 Click="Minimalize">
+                <Image Source="Images/Minimalize.png"/>
+            </Button>
+            <Button
+                Grid.Column="3"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="0"
+                Background="Transparent"
+                Click="Close">
+                <Image Source="Images/Cancel.png"/>
+            </Button>
         </Grid>
         <userControls:SettingsControl
             Grid.Row="1"
